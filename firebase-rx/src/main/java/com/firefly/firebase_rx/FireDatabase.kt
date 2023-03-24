@@ -165,6 +165,28 @@ class FireDatabase(url: String = "") {
         }
 
         /**
+         * Convierte una [Query] a [Observable] de RX
+         */
+        fun Query.toRxObservable(): Observable<DataSnapshot> {
+            lateinit var valueEventListener: ValueEventListener
+            return Observable.create<DataSnapshot> { emitter ->
+                valueEventListener = object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        emitter.onNext(snapshot)
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        emitter.onError(error.toException())
+                    }
+                }
+
+                addValueEventListener(valueEventListener)
+            }.doOnDispose {
+                removeEventListener(valueEventListener)
+            }
+        }
+
+        /**
          * Actualiza una lista de nodos de la BD.
          *
          * @param update mapa de nodos y valores a actualizar.
