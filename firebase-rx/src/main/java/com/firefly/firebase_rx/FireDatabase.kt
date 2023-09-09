@@ -127,7 +127,7 @@ class FireDatabase(url: String = "") {
                         if (p0.exists())
                             emitter.onSuccess(p0)
                         else
-                            emitter.onError(DataDoesNotExistsException())
+                            emitter.onError(DataDoesNotExistsException(p0))
                     }
                 }
                 valueEventListener?.let<ValueEventListener, Unit> { addListenerForSingleValueEvent(it) }
