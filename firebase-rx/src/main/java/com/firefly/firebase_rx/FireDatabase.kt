@@ -8,29 +8,29 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 
-class FireDatabase(url: String = "") {
-
-    constructor(emulatorIp: String, emulatorPort: Int): this(""){
-        this.emulatorHost = emulatorIp
-        this.emulatorPort = emulatorPort
-    }
-
-    private var emulatorHost: String? = null
-    private var emulatorPort: Int? = null
+class FireDatabase{
 
     private val database: DatabaseReference
 
-    init {
+    constructor(emulatorIp: String, emulatorPort: Int){
+        database = if(emulatorIp.isNotBlank() && emulatorPort > 0){
+            val db = Firebase.database
+            db.useEmulator(emulatorIp, emulatorPort)
+            db.reference
+        } else {
+            Firebase.database.reference
+        }
+    }
+
+    constructor(url: String = "") {
         database = if(url.isBlank()) {
-            if(!emulatorHost.isNullOrBlank() && emulatorPort != null){
-                val db = Firebase.database
-                db.useEmulator(emulatorHost!!, emulatorPort!!)
-                db.reference
-            } else {
-                Firebase.database.reference
-            }
+            Firebase.database.reference
         } else
             Firebase.database(url).reference
+    }
+
+    constructor() {
+        database = Firebase.database.reference
     }
 
     fun createDBReference(reference: String): DatabaseReference{
