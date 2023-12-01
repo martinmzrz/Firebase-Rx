@@ -10,9 +10,22 @@ import io.reactivex.Single
 
 class FireDatabase(url: String = "") {
 
-    private val database = if(url.isBlank())
-        Firebase.database.reference
-    else
+    constructor(emulatorIp: String, emulatorPort: Int): this(""){
+        this.emulatorHost = emulatorIp
+    }
+
+    private var emulatorHost: String? = null
+    private var emulatorPort: Int? = null
+
+    private val database = if(url.isBlank()) {
+        if(!emulatorHost.isNullOrBlank() && emulatorHost != null){
+            val db = Firebase.database
+            db.useEmulator(emulatorHost!!, emulatorPort!!)
+            db.reference
+        } else {
+            Firebase.database.reference
+        }
+    } else
         Firebase.database(url).reference
 
 
