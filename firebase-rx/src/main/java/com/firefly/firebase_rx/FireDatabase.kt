@@ -12,6 +12,7 @@ class FireDatabase(url: String = "") {
 
     constructor(emulatorIp: String, emulatorPort: Int): this(""){
         this.emulatorHost = emulatorIp
+        this.emulatorPort = emulatorPort
     }
 
     private var emulatorHost: String? = null
