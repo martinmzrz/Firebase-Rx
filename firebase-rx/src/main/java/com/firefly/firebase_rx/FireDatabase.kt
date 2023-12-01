@@ -19,7 +19,7 @@ class FireDatabase(url: String = "") {
     private var emulatorPort: Int? = null
 
     private val database = if(url.isBlank()) {
-        if(!emulatorHost.isNullOrBlank() && emulatorHost != null){
+        if(!emulatorHost.isNullOrBlank() && emulatorPort != null){
             val db = Firebase.database
             db.useEmulator(emulatorHost!!, emulatorPort!!)
             db.reference
