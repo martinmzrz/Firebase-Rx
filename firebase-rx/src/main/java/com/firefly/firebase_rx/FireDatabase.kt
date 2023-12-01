@@ -18,17 +18,20 @@ class FireDatabase(url: String = "") {
     private var emulatorHost: String? = null
     private var emulatorPort: Int? = null
 
-    private val database = if(url.isBlank()) {
-        if(!emulatorHost.isNullOrBlank() && emulatorPort != null){
-            val db = Firebase.database
-            db.useEmulator(emulatorHost!!, emulatorPort!!)
-            db.reference
-        } else {
-            Firebase.database.reference
-        }
-    } else
-        Firebase.database(url).reference
+    private val database: DatabaseReference
 
+    init {
+        database = if(url.isBlank()) {
+            if(!emulatorHost.isNullOrBlank() && emulatorPort != null){
+                val db = Firebase.database
+                db.useEmulator(emulatorHost!!, emulatorPort!!)
+                db.reference
+            } else {
+                Firebase.database.reference
+            }
+        } else
+            Firebase.database(url).reference
+    }
 
     fun createDBReference(reference: String): DatabaseReference{
         return database.child(reference)
