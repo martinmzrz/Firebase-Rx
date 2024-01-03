@@ -208,7 +208,7 @@ class FireDatabase{
          *
          * @param update mapa de nodos y valores a actualizar.
          */
-        fun DatabaseReference.rxUpdateChildren(update: Map<String, Any>): Completable {
+        fun DatabaseReference.rxUpdateChildren(update: Map<String, Any?>): Completable {
             return Completable.create { emitter ->
                 this.updateChildren(update).addOnCompleteListener { task ->
                     if (task.isSuccessful) {
