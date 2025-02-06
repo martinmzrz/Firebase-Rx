@@ -58,7 +58,7 @@ publishing {
         release(MavenPublication) {
             groupId = 'com.firefly'
             artifactId = 'firebase_rx'
-            version = '0.0.15'
+            version = '0.0.16'
 
             afterEvaluate {
                 from components.release
