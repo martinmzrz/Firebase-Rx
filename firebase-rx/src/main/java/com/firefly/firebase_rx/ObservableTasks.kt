@@ -13,7 +13,7 @@ class ObservableTasks {
                         if (task.result == null) {
                             emitter.onError(NullPointerException())
                         } else {
-                            emitter.onSuccess(task.result)
+                            emitter.onSuccess(task.result!!)
                         }
                     } else {
                         if (task.exception == null) {
